@@ -1,0 +1,44 @@
+<div style="font-size: 20px;">{{pageTitle}}</div>
+<clr-alert *ngIf="isFormInvalid" [clrAlertType]="'danger'">
+    <clr-alert-item>
+        <span class="alert-text">
+            The fields with * are required
+        </span>
+    </clr-alert-item>
+</clr-alert>
+<form clrForm [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+    <clr-input-container>
+        <label class="clr-col-12 clr-col-md-4">Blog title*</label>
+        <input class="clr-col-12 clr-col-md-8" placeholder="Title" clrInput type="text" formControlName="blogTitle"
+            required />
+        <!-- <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper> -->
+        <clr-control-error>Blog title is required</clr-control-error>
+    </clr-input-container>
+    <clr-radio-container clrInline>
+        <label class="clr-col-12 clr-col-md-4">Blog Category*</label>
+        <clr-radio-wrapper *ngFor="let category of blogCategories">
+            <input class="clr-col-12 clr-col-md-8" type="radio" clrRadio formControlName="blogCategory" required
+                [value]="category.blogcategoryname" required />
+            <label>{{category.blogcategoryname}}</label>
+        </clr-radio-wrapper>
+        <!-- <clr-control-helper>Helper text</clr-control-helper> -->
+        <clr-control-error>Blog category is required</clr-control-error>
+    </clr-radio-container>
+    <clr-input-container>
+        <label class="clr-col-12 clr-col-md-4">Media</label>
+        <input class="clr-col-12 clr-col-md-8" clrInput type="file" formControlName="blogMedia"/>
+        <clr-control-helper>Upload media reated to your story</clr-control-helper>
+        <!-- <clr-control-error>Blog media is required</clr-control-error> -->
+    </clr-input-container>
+    <clr-textarea-container>
+        <label class="clr-col-12 clr-col-md-4">Story*</label>
+        <textarea class="clr-col-12 clr-col-md-8" placeholder="Write here..." rows="8" cols="60" clrTextarea
+            formControlName="blogDescription" required></textarea>
+            <clr-control-error>Blog story is required</clr-control-error>
+    </clr-textarea-container>
+
+    <div style="margin-top: 16px;">
+        <button [clrLoading]="validateForm" type="submit" class="btn btn-primary">{{submitBtnLabel}}</button>
+        <button type="reset" class="btn">Reset</button>
+    </div>
+</form>

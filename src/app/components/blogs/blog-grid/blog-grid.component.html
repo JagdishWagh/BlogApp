@@ -1,0 +1,18 @@
+<div class="clr-row">
+    <div class="clr-col-3" *ngFor="let blog of blogs">
+        <a class="card clickable">
+            <div class="card-img">
+                <img src="/assets/images/pexels-photo-236047.jpeg" width="300" height="150">
+            </div>
+            <div class="card-block blog-desc">
+                <div class="card-title">
+                    {{blog.blogtitle}}
+                    <div class="blog-category">{{blog.blogcategory}}</div>
+                </div>
+                <div class="card-text">
+                    {{blog.blogdescription}}
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

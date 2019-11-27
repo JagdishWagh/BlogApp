@@ -1,0 +1,76 @@
+<clr-alert *ngIf="isDeleteSuccess" [clrAlertType]="'success'">
+    <clr-alert-item>
+        <span class="alert-text">
+            Blog removed successfully
+        </span>
+    </clr-alert-item>
+</clr-alert>
+<clr-datagrid style="width: 1260px;" [(clrDgSelected)]="selected">
+    <clr-dg-action-bar *ngIf="selected.length > 0">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary">
+                <clr-icon shape="star"></clr-icon> Add
+                to favourite
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()">
+                <clr-icon shape="close"></clr-icon> Delete
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" *ngIf="selected.length == 1" (click)="onEdit()">
+                <clr-icon shape="pencil"></clr-icon> Edit
+            </button>
+        </div>
+        <div class="btn-group">
+            <clr-dropdown>
+                <button type="button" class="btn btn-sm btn-secondary" clrDropdownTrigger>
+                    Export
+                    <clr-icon shape="caret down"></clr-icon>
+                </button>
+                <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+                    <button type="button" clrDropdownItem>Export All</button>
+                    <button type="button" [disabled]="selected.length === 0"
+                        clrDropdownItem>Export Selected Items</button>
+                </clr-dropdown-menu>
+            </clr-dropdown>
+        </div>
+    </clr-dg-action-bar>
+
+        <clr-dg-placeholder>We couldn't find any blogs!</clr-dg-placeholder>
+
+        <!-- <clr-dg-column>ID</clr-dg-column> -->
+        <clr-dg-column>Title</clr-dg-column>
+        <clr-dg-column>Category</clr-dg-column>
+        <clr-dg-column>Created by</clr-dg-column>
+        <clr-dg-column>Created on</clr-dg-column>
+
+        <clr-dg-row *clrDgItems="let blog of blogs" [clrDgItem]="blog">
+            <!-- <clr-dg-cell>{{blog.blogid}}</clr-dg-cell> -->
+            <clr-dg-cell>{{blog.blogtitle}}</clr-dg-cell>
+            <clr-dg-cell>{{blog.blogcategory}}</clr-dg-cell>
+            <clr-dg-cell>{{blog.createdby}}</clr-dg-cell>
+            <clr-dg-cell>{{blog.createddate | date: 'dd MMM yyyy, hh:mm a'}}</clr-dg-cell>
+
+            <clr-dg-row-detail *clrIfExpanded>
+                <img src="/assets/images/pexels-photo-236047.jpeg" width="400" height="235">
+                <div class="blog-desc">{{blog.blogdescription}}</div>
+            </clr-dg-row-detail>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Blogs per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} blogs
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    </clr-datagrid>
+
+    <clr-modal [(clrModalOpen)]="isDeleteConfirm">
+        <h3 class="modal-title">Confirm</h3>
+        <div class="modal-body">
+            <p>Are you sure you want to remove the blog?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="isDeleteConfirm = false">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="confirmDelete()">Ok</button>
+        </div>
+    </clr-modal>
